@@ -6,12 +6,13 @@ int main()
     const char* input = "data/chessboard.avi";
     cv::Size board_pattern(10, 7);
     float board_cellsize = 0.025f;
-    bool select_images = true;
+    bool select_images = false;
 
     // Open a video
     cv::VideoCapture video;
     if (!video.open(input)) return -1;
 
+    int cnt_save(0);
     // Select images
     std::vector<cv::Mat> images;
     while (true)
@@ -39,7 +40,11 @@ int main()
                 else if (key == 13) images.push_back(image);    // 'Enter' key: Select
             }
         }
-        else images.push_back(image);
+        else {
+            if (cnt_save++%20==0) {
+                images.push_back(image);
+            }
+        }
     }
     video.release();
     if (images.empty()) return -1;
@@ -52,7 +57,10 @@ int main()
         if (cv::findChessboardCorners(images[i], board_pattern, pts))
             img_points.push_back(pts);
     }
-    if (img_points.empty()) return -1;
+    if (img_points.empty()) {
+        std::cout << "img points are empty" << std::endl;
+        return -1;
+    }
 
     // Prepare 3D points of the chess board
     std::vector<std::vector<cv::Point3f>> obj_points(1);

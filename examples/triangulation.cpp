@@ -3,7 +3,7 @@
 int main()
 {
     // c.f. You need to run 'image_formation.cpp' to generate point observation.
-    const char *input0 = "image_formation0.xyz", *input1 = "image_formation1.xyz";
+    const char *input0 = "data/image_formation0.xyz", *input1 = "data/image_formation1.xyz";
     double f = 1000, cx = 320, cy = 240;
 
     // Load 2D points observed from two views
